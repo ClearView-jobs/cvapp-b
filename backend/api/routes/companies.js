@@ -1,36 +1,40 @@
-const 
-  express = require('express'),
-  router = express.Router();
+const
+    express = require('express'),
+    router = express.Router(),
+    companyModel = require('../../models/companies'),
+    db = require('../../firebase-settings');
 
-const { db } = require('../firebase-settings');
 
-
-router.get('/', (req, res) => {
-    db.collection('companies').get().then((snapshot) => {
-        let companies = [];
-        snapshot.docs.forEach(company=>{
-            companies.push(company.data())
-        })
-        res.json(companies);
-    }).catch((err)=>{
-        console.log(err);
+router.get('/', async (req, res) => {
+    try {
+        let companies = await companyModel.get();
+        res.status(200).json(companies);
+    } catch (error) {
+        console.log(error);
         res.sendStatus(500);
-    })
+    }
+})
+
+router.get('/:id', async (req, res) => {
+    try{
+        let companyID = req.params.id;
+        let company = await companyModel.getCompany(companyID);
+        res
+            .status(200)
+            .json(company);
+    }catch(error){
+        res.sendStatus(500);
+    }
 })
 
 router.post('/', (req, res) => {
-    let company = {
-      name: req.body.name,
-      number_of_employees: req.body.number_of_employees
+    try {
+        companyModel.create(req.body);
+        res.sendStatus(201)
+    } catch (err) {
+        console.log(err);
+        res.sendStatus(500);
     }
-    //db.collection('sample').doc('company').add(company).then(() => {
-    db.collection('companies').add(company).then(() => {
-      console.log("quote was written to database");
-      res.sendStatus(201)
-    }).catch((err)=>{
-      console.log(err);
-      res.sendStatus(500);
-    })
 });
-  
+
 module.exports = router;

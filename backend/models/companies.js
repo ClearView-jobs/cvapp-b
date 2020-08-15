@@ -3,14 +3,10 @@ const db = require('../firebase-settings');
 exports.create = async function(company){
     try{
         let companyInfo = {
-            name: company.name,
-            address: company.address,
-            tags: company.tags,
-            categories: company.categories,
-            rating: 0, 
-            number_of_employees: company.number_of_employees
+            ...company,
+            rating: 0
         }
-        const doc = await db.collection('companies').add(companyInfo);
+        const doc = await db.collection('companies').add(company);
         const snapshot = await doc.get();
         return {
             name: snapshot.data().name,

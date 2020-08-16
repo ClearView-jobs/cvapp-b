@@ -11,6 +11,6 @@
   ```sh
   $ git checkout -b Jira-Automation-CV-15
   ```
-- You can now begin working from this branch and add commits, each commit will be reflected in **Jira** automatically for project tracking.
+- You can now begin working from this branch and add commits, each commit will be reflected in **Jira** automatically for project tracking **once the ticket ID is inlcuded in the commit message**.
 - A new branch will automatically move that ticket into the **IN PROGRESS** phase.
 - Pull requests will also be tracked and closing(merge to dev) a PR will move the ticket to the **DONE** phase

@@ -1,5 +1,5 @@
-const admin = require("firebase-admin"),
-  serviceAccount = require("./config/ServiceAccountKey.json");
+const admin = require("firebase-admin");
+// serviceAccount = require("./config/ServiceAccountKey.json");
 require("dotenv").config();
 
 admin.initializeApp({

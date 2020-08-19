@@ -2,6 +2,8 @@ const db = require('../firebase-settings');
 
 exports.create = async function(company){
     try{
+        // passed company directly to firebase without checking the 
+        // shape so it can be changed dynamically
         let companyInfo = {
             name: company.name,
             address: company.address,
@@ -10,7 +12,7 @@ exports.create = async function(company){
             rating: 0, 
             number_of_employees: company.number_of_employees
         }
-        const doc = await db.collection('companies').add(companyInfo);
+        const doc = await db.collection('companies').add(company);
         const snapshot = await doc.get();
         return {
             name: snapshot.data().name,
